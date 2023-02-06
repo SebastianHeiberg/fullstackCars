@@ -35,6 +35,7 @@ public class Member {
   @UpdateTimestamp
   private LocalDateTime lastEdited;
 
+
   @ElementCollection
   List<String> favoriteCarColors = new ArrayList<>();
   @ElementCollection

@@ -1,6 +1,7 @@
 package dat3.car.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,6 +13,7 @@ import java.time.LocalDateTime;
 @Setter
 @Getter
 @NoArgsConstructor
+
 @Entity
 public class Car {
 
@@ -33,7 +35,6 @@ public class Car {
 
 
   public Car(String brand, String model, double pricePrDay, int bestDiscount) {
-//    this.id = id;
     this.brand = brand;
     this.model = model;
     this.pricePrDay = pricePrDay;

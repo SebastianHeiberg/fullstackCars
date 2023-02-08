@@ -27,7 +27,7 @@ public class Car {
   @Column (name = "rental_price_day")
   private double pricePrDay;
   @Column (name = "max_discount")
-  private int bestDiscount;
+  private Integer bestDiscount;
   @CreationTimestamp
   private LocalDateTime created;
   @UpdateTimestamp

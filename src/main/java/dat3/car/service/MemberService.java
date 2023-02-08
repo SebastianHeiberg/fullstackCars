@@ -23,17 +23,17 @@ public class MemberService {
 
   public List<MemberResponse> getMembers(boolean includeAll) {
     List<Member> members = memberRepository.findAll();
-    List <MemberResponse> memberResponses = members.stream().map(m -> new MemberResponse(m,includeAll)).toList();
+    List<MemberResponse> memberResponses = members.stream().map(m -> new MemberResponse(m, includeAll)).toList();
     return memberResponses;
   }
 
-  public MemberResponse addMember(MemberRequest memberRequest){
+  public MemberResponse addMember(MemberRequest memberRequest) {
     //Later you should add error checks --> Missing arguments, email taken etc.
-    if(memberRepository.existsById(memberRequest.getUsername())){
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Member with this ID already exist");
+    if (memberRepository.existsById(memberRequest.getUsername())) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Member with this ID already exist");
     }
-    if(memberRepository.existsByEmail(memberRequest.getEmail())){
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"Member with this Email already exist");
+    if (memberRepository.existsByEmail(memberRequest.getEmail())) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Member with this Email already exist");
     }
     Member newMember = MemberRequest.getMemberEntity(memberRequest);
     newMember = memberRepository.save(newMember);
@@ -41,15 +41,15 @@ public class MemberService {
     return new MemberResponse(newMember, false);
   }
 
-  public MemberResponse findMemberByUsername (String username) {
+  public MemberResponse findMemberByUsername(String username) {
 
-    Member m = memberRepository.findById(username).orElseThrow( ()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"Member with this username dont exist"));
-    return new MemberResponse(m,true);
+    Member m = memberRepository.findById(username).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Member with this username dont exist"));
+    return new MemberResponse(m, true);
   }
 
   public ResponseEntity<Boolean> editMember(MemberRequest body, String username) {
 
-    Member m = memberRepository.findById(username).orElseThrow( ()-> new ResponseStatusException(HttpStatus.NOT_FOUND,"Member with this username dont exist"));
+    if (!memberRepository.existsById(username)) { throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Member with this username dont exist"); }
 
     Member updateMember = MemberRequest.getMemberEntity(body);
     memberRepository.save(updateMember);
@@ -60,10 +60,19 @@ public class MemberService {
 
 
   public void setRankingForUser(String username, int value) {
-    memberRepository.updateRankingForUser(value,username);
+
+    if (memberRepository.existsById(username)) {
+      memberRepository.updateRankingForUser(value, username);
+    } else {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Member with this username dont exist");
+    }
   }
 
   public void deleteMemberByUsername(String username) {
-    memberRepository.deleteById(username);
+    if (memberRepository.existsById(username)) {
+      memberRepository.deleteById(username);
+    } else {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Member with this username dont exist");
+    }
   }
 }

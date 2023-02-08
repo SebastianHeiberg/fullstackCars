@@ -15,12 +15,9 @@ import java.util.List;
 class MemberController {
 
   MemberService memberService;
-  private final MemberRepository memberRepository;
 
-  public MemberController(MemberService memberService,
-                          MemberRepository memberRepository) {
+  public MemberController(MemberService memberService) {
     this.memberService = memberService;
-    this.memberRepository = memberRepository;
   }
 
   //Admin

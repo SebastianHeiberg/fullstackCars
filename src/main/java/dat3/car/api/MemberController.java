@@ -2,6 +2,7 @@ package dat3.car.api;
 
 import dat3.car.dto.MemberRequest;
 import dat3.car.dto.MemberResponse;
+import dat3.car.repository.MemberRepository;
 import dat3.car.service.MemberService;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -14,9 +15,12 @@ import java.util.List;
 class MemberController {
 
   MemberService memberService;
+  private final MemberRepository memberRepository;
 
-  public MemberController(MemberService memberService) {
+  public MemberController(MemberService memberService,
+                          MemberRepository memberRepository) {
     this.memberService = memberService;
+    this.memberRepository = memberRepository;
   }
 
   //Admin
@@ -25,7 +29,7 @@ class MemberController {
 
   //Admin
   @GetMapping(path = "/{username}")
-  MemberResponse getMemberById(@PathVariable String username) throws Exception {return null;}
+  MemberResponse getMemberById(@PathVariable String username) throws Exception { return memberService.findMemberByUsername(username); }
 
   //Anonymous
 //  @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -37,16 +41,19 @@ class MemberController {
   //Member
   @PutMapping("/{username}")
   ResponseEntity<Boolean> editMember(@RequestBody MemberRequest body, @PathVariable String username){
-    return null;
+    return memberService.editMember(body,username);
   }
 
   //Admin
   @PatchMapping("/ranking/{username}/{value}")
-  void setRankingForUser(@PathVariable String username, @PathVariable int value) {}
+  void setRankingForUser(@PathVariable String username, @PathVariable int value) {
+    memberService.setRankingForUser(username,value);
+  }
 
   // Admin
   @DeleteMapping("/{username}")
-  void deleteMemberByUsername(@PathVariable String username) {}
+  void deleteMemberByUsername(@PathVariable String username) { memberService.deleteMemberByUsername(username);}
+
 
 
 }

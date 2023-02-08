@@ -35,14 +35,14 @@ public class CarController {
 
   //Member
   @PutMapping("/{id}")
-  ResponseEntity<Boolean> editMember(@RequestBody CarRequest body, @PathVariable int id){
-    return carService.editMember(body,id);
+  ResponseEntity<Boolean> editCar(@RequestBody CarRequest body, @PathVariable int id){
+    return carService.editCar(body,id);
   }
 
   //Admin
-  @PatchMapping("/ranking/{username}/{value}")
-  void setRankingForUser(@PathVariable int username, @PathVariable int value) {
-    carService.setRankingForUser(username,value);
+  @PatchMapping("/bestDiscount/{id}/{value}")
+  void setBestDiscount(@PathVariable int id, @PathVariable int value) {
+    carService.setBestDiscount(id,value);
   }
 
   // Admin

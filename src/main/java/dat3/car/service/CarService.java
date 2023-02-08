@@ -4,10 +4,13 @@ import dat3.car.dto.CarRequest;
 import dat3.car.dto.CarResponse;
 import dat3.car.entity.Car;
 import dat3.car.repository.CarRepository;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CarService {
@@ -26,24 +29,36 @@ private CarRepository carRepository;
   }
 
   public CarResponse findCarById(int id) {
-    return null;
+    Car car = carRepository.findById(id).orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND, "Car with this id dont exist"));
+    CarResponse cr = new CarResponse(car,true);
+    return cr;
   }
-
 
   public CarResponse addCar(CarRequest body) {
-    return null;
+    Car car = CarRequest.getCarEntity(body);
+
+    if (!carRepository.existsById(car.getId())) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Car with this ID already exist"); }
+
+    carRepository.save(car);
+    return new CarResponse(car,false);
   }
 
-  public ResponseEntity<Boolean> editMember(CarRequest body, int id) {
-    return null;
+  public ResponseEntity<Boolean> editCar(CarRequest body, int id) {
+
+    if (!carRepository.existsById(id)) {
+      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Car with this ID already exist"); }
+
+    Car car = CarRequest.getCarEntity(body);
+    carRepository.save(car);
+    return new ResponseEntity<>(true,HttpStatus.OK);
   }
 
-
-  public void setRankingForUser(int username, int value) {
-
+  public void setBestDiscount(int id, int value) {
+    carRepository.setCarBestDiscount(value,id);
   }
 
   public void deleteMemberByUsername(int id) {
-
+    carRepository.deleteById(id);
   }
 }

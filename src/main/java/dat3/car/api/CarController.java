@@ -24,7 +24,7 @@ public class CarController {
 
   //Admin
   @GetMapping(path = "/{id}")
-  CarResponse getMemberById(@PathVariable String id) throws Exception { return carService.findCarById(id); }
+  CarResponse getMemberById(@PathVariable int id) throws Exception { return carService.findCarById(id); }
 
   //Anonymous
 //  @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
@@ -35,19 +35,19 @@ public class CarController {
 
   //Member
   @PutMapping("/{id}")
-  ResponseEntity<Boolean> editMember(@RequestBody CarRequest body, @PathVariable String id){
-    return carService.editMember(body,username);
+  ResponseEntity<Boolean> editMember(@RequestBody CarRequest body, @PathVariable int id){
+    return carService.editMember(body,id);
   }
 
   //Admin
   @PatchMapping("/ranking/{username}/{value}")
-  void setRankingForUser(@PathVariable String username, @PathVariable int value) {
+  void setRankingForUser(@PathVariable int username, @PathVariable int value) {
     carService.setRankingForUser(username,value);
   }
 
   // Admin
-  @DeleteMapping("/{username}")
-  void deleteMemberByUsername(@PathVariable String username) { carService.deleteMemberByUsername(username);}
+  @DeleteMapping("/{id}")
+  void deleteMemberByUsername(@PathVariable int id) { carService.deleteMemberByUsername(id);}
 
 
 }

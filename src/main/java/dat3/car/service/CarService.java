@@ -4,6 +4,7 @@ import dat3.car.dto.CarRequest;
 import dat3.car.dto.CarResponse;
 import dat3.car.entity.Car;
 import dat3.car.repository.CarRepository;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,7 +25,7 @@ private CarRepository carRepository;
     return listOfCarResponses;
   }
 
-  public CarResponse findCarById(String id) {
+  public CarResponse findCarById(int id) {
     return null;
   }
 
@@ -33,4 +34,16 @@ private CarRepository carRepository;
     return null;
   }
 
+  public ResponseEntity<Boolean> editMember(CarRequest body, int id) {
+    return null;
+  }
+
+
+  public void setRankingForUser(int username, int value) {
+
+  }
+
+  public void deleteMemberByUsername(int id) {
+
+  }
 }

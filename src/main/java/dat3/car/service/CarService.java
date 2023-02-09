@@ -36,7 +36,7 @@ public class CarService {
   public CarResponse addCar(CarRequest body) {
     Car car = CarRequest.getCarEntity(body);
 
-    if (!carRepository.existsById(car.getId())) {
+    if (carRepository.existsById(car.getId())) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Car with this ID already exist");
     }
 

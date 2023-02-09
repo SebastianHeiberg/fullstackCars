@@ -18,12 +18,9 @@ import java.util.Optional;
 public class MemberService {
 
   private final MemberRepository memberRepository;
-  private final CarRepository carRepository;
 
-  public MemberService(MemberRepository memberRepository,
-                       CarRepository carRepository) {
+  public MemberService(MemberRepository memberRepository) {
     this.memberRepository = memberRepository;
-    this.carRepository = carRepository;
   }
 
   public List<MemberResponse> getMembers(boolean includeAll) {
@@ -75,7 +72,7 @@ public class MemberService {
   }
 
   public void deleteMemberByUsername(String username) {
-    if (memberRepository.existsById(username)) {
+    if (!memberRepository.existsById(username)) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Member with this username dont exist");
     }
     memberRepository.deleteById(username);

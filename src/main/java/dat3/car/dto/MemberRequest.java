@@ -22,11 +22,13 @@ public class MemberRequest {
 
   // MemberRequest to member conversion
   public static Member getMemberEntity(MemberRequest m){
-    return new Member(m.username,m.getPassword(),m.getEmail(), m.firstName, m.lastName,m.getStreet(), m.getCity(), m.getZip());
+    return new Member(m.username,m.getPassword(),m.getEmail(), m.getFirstName(), m.getLastName(),m.getStreet(), m.getCity(), m.getZip());
   }
 
   // Member to MemberRequest conversion
   public MemberRequest(Member m){
+    this.firstName = m.getFirstName();
+    this.lastName = m.getLastName();
     this.username = m.getUsername();
     this.password = m.getPassword();
     this.email = m.getEmail();

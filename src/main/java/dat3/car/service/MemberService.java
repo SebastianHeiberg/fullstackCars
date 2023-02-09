@@ -2,7 +2,9 @@ package dat3.car.service;
 
 import dat3.car.dto.MemberRequest;
 import dat3.car.dto.MemberResponse;
+import dat3.car.entity.Car;
 import dat3.car.entity.Member;
+import dat3.car.repository.CarRepository;
 import dat3.car.repository.MemberRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,9 +18,12 @@ import java.util.Optional;
 public class MemberService {
 
   private final MemberRepository memberRepository;
+  private final CarRepository carRepository;
 
-  public MemberService(MemberRepository memberRepository) {
+  public MemberService(MemberRepository memberRepository,
+                       CarRepository carRepository) {
     this.memberRepository = memberRepository;
+    this.carRepository = carRepository;
   }
 
   public List<MemberResponse> getMembers(boolean includeAll) {
@@ -49,30 +54,30 @@ public class MemberService {
 
   public ResponseEntity<Boolean> editMember(MemberRequest body, String username) {
 
-    memberRepository.findById(username).orElseThrow( ()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Member with this username dont exist"));
-
-    Member updateMember = MemberRequest.getMemberEntity(body);
-    memberRepository.save(updateMember);
+    Member member = memberRepository.findById(username).orElseThrow( ()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Member with this username dont exist"));
+    member.setPassword(body.getPassword());
+    member.setEmail(body.getEmail());
+    member.setFirstName(body.getFirstName());
+    member.setLastName(body.getLastName());
+    member.setStreet(body.getStreet());
+    member.setCity(body.getCity());
+    member.setZip(body.getZip());
+    memberRepository.save(member);
 
     return new ResponseEntity<>(true, HttpStatus.OK);
-
   }
 
 
   public void setRankingForUser(String username, int value) {
-
-    if (memberRepository.existsById(username)) {
-      memberRepository.updateRankingForUser(value, username);
-    } else {
-      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Member with this username dont exist");
-    }
+    Member member = memberRepository.findById(username).orElseThrow( ()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Member with this username dont exist"));
+    member.setRanking(value);
+    memberRepository.save(member);
   }
 
   public void deleteMemberByUsername(String username) {
     if (memberRepository.existsById(username)) {
-      memberRepository.deleteById(username);
-    } else {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Member with this username dont exist");
     }
+    memberRepository.deleteById(username);
   }
 }

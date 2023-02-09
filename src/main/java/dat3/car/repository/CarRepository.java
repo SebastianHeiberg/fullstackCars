@@ -8,9 +8,4 @@ import org.springframework.transaction.annotation.Transactional;
 
 public interface CarRepository extends JpaRepository<Car,Integer> {
 
-  @Transactional
-  @Modifying
-  @Query("update Car c set c.bestDiscount = ?1 where c.id = ?2")
-  void setCarBestDiscount(Integer bestDiscount, int id);
-
 }

@@ -21,9 +21,7 @@ public class CarRequest {
 
   // CarRequest to Car conversion
   public static Car getCarEntity(CarRequest cr){
-    Car car = new Car(cr.brand, cr.model,cr.pricePrDay,cr.bestDiscount);
-    car.setId(cr.id);
-    return car;
+    return new Car(cr.brand, cr.model,cr.pricePrDay,cr.bestDiscount);
   }
 
   // Car to CarRequest coversion

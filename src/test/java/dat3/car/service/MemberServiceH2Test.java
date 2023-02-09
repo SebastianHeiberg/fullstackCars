@@ -57,5 +57,7 @@ public class MemberServiceH2Test {
 
   @Test
   void addMember() {
+    memberRepository.save(new Member("m3", "test12", "m1@a.dk",  "bb", "Olsen", "xx vej 34", "Lyngby", "2800"));
+    assertEquals(3, memberRepository.findAll().size());
   }
 }

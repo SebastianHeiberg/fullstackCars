@@ -8,11 +8,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 public interface MemberRepository extends JpaRepository<Member, String> {
 
-  @Transactional
-  @Modifying
-  @Query("update Member m set m.ranking = ?1 where m.username = ?2")
-  void updateRankingForUser(int ranking, String username);
-
   boolean existsByEmail(String email);
 
 }

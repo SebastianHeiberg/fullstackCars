@@ -33,12 +33,7 @@ public class DeveloperData implements ApplicationRunner {
 
       Member m1 = new Member("member1", passwordUsedByAll, "memb1@a.dk", "Kurt", "Wonnegut", "Lyngbyvej 2", "Lyngby", "2800");
       Member m2 = new Member("member2", passwordUsedByAll, "aaa@dd.dk", "Hanne", "Wonnegut", "Lyngbyvej 2", "Lyngby", "2800");
-      m1.setFavoriteCarColors(new ArrayList<String>(Arrays.asList("Yellow")));
-      m2.setFavoriteCarColors(new ArrayList<String>(Arrays.asList("Red")));
-      m1.setPhones(new HashMap<String, String>(){
-        {
-          put("Nokia", "11234");
-        }});
+
 
       memberRepository.save(m1);
       memberRepository.save(m2);

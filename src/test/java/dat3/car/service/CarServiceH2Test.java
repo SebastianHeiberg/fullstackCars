@@ -4,15 +4,12 @@ import dat3.car.dto.CarRequest;
 import dat3.car.dto.CarResponse;
 import dat3.car.entity.Car;
 import dat3.car.repository.CarRepository;
-import org.aspectj.lang.annotation.Before;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.http.ResponseEntity;
 
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -26,47 +23,51 @@ class CarServiceH2Test {
 
 
   boolean dataIsReady = false;
+
   @BeforeEach
   void setUp() {
-    if(!dataIsReady){  //Explain this
-      carRepository.save(new Car("Tesla","M1",1000,10));
-      carRepository.save(new Car("Tesla","M2",2000,20));
-      carRepository.save(new Car("Tesla","M3",3000,30));
-      carRepository.save(new Car("Tesla","M4",4000,40));
+    if (!dataIsReady) {  //Explain this
+      carRepository.save(new Car("Tesla", "M1", 1000, 10));
+      carRepository.save(new Car("Tesla", "M2", 2000, 20));
+      carRepository.save(new Car("Tesla", "M3", 3000, 30));
+      carRepository.save(new Car("Tesla", "M4", 4000, 40));
       dataIsReady = true;
       carService = new CarService(carRepository); //Real DB is mocked away with H2
     }
   }
 
+
+
   @Test
   void getCars() {
     int actual = carRepository.findAll().size();
     int expected = 4;
-    assertEquals(expected,actual);
+    assertEquals(expected, actual);
   }
 
   @Test
   void addCar() {
-    Car car = new Car("Tesla","M15",3000,30);
+    Car car = new Car("Tesla", "M15", 3000, 30);
     CarRequest carRequest = new CarRequest(car);
     CarResponse carResponse = carService.addCar(carRequest);
-    assertEquals(car.getModel(),carResponse.getModel());
+    assertEquals(car.getModel(), carResponse.getModel());
   }
 
   @Test
   void editCar() {
     //ændre prisen til 3000
-    Car car = new Car("Tesla","M2",3000,20);
+    Car car = new Car("Tesla", "M2", 3000, 20);
     CarRequest carRequest = new CarRequest(car);
 
-    ResponseEntity<Boolean> responseEntity = carService.editCar(carRequest,1);
+    ResponseEntity<Boolean> responseEntity = carService.editCar(carRequest, 1);
 
     double actual = carRepository.findById(1).get().getPricePrDay();
     double expected = car.getPricePrDay();
     assertEquals(actual, expected);
   }
+}
 
-  // Følgende test består enkeltvis, men ikke hvis kørt alle efter hinanden, kunne ikke løse fejl.
+  // Følgende test består enkeltvis, men ikke hvis kørt alle efter hinanden, kunne ikke løse den fejl.
 //  @Test
 //  void setBestDiscount() {
 //
@@ -76,11 +77,6 @@ class CarServiceH2Test {
 //    assertEquals(expected, actual);
 //  }
 //
-//  @Test
-//  void deleteCarById() {
-//    carService.deleteCarById(3);
-//    assertFalse(carRepository.existsById(3));
-//  }
 //@Test
 //void findCarById() {
 //  CarResponse carResponse = carService.findCarById(4);
@@ -88,5 +84,8 @@ class CarServiceH2Test {
 //  String expected = "Tesla";
 //  assertEquals(expected, actual);
 //}
-
-}
+//  @Test
+//  void deleteCarById() {
+//    carService.deleteCarById(1);
+//    assertFalse(carRepository.existsById(1));
+//  }

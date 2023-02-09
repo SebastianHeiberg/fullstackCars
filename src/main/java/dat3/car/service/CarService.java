@@ -62,6 +62,9 @@ public class CarService {
   }
 
   public void deleteCarById(int id) {
+    if (!carRepository.existsById(id)) {
+      throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Car with this Id dont exist");
+    }
     carRepository.deleteById(id);
   }
 

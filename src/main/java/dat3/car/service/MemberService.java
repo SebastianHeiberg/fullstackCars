@@ -49,7 +49,7 @@ public class MemberService {
 
   public ResponseEntity<Boolean> editMember(MemberRequest body, String username) {
 
-    if (!memberRepository.existsById(username)) { throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Member with this username dont exist"); }
+    memberRepository.findById(username).orElseThrow( ()-> new ResponseStatusException(HttpStatus.NOT_FOUND, "Member with this username dont exist"));
 
     Member updateMember = MemberRequest.getMemberEntity(body);
     memberRepository.save(updateMember);

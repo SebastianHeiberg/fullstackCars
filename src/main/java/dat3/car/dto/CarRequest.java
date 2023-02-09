@@ -21,11 +21,14 @@ public class CarRequest {
 
   // CarRequest to Car conversion
   public static Car getCarEntity(CarRequest cr){
-    return new Car(cr.brand, cr.model,cr.pricePrDay,cr.bestDiscount);
+    Car car = new Car(cr.brand, cr.model,cr.pricePrDay,cr.bestDiscount);
+    car.setId(cr.id);
+    return car;
   }
 
   // Car to CarRequest coversion
   public CarRequest (Car c){
+    this.id = c.getId();
     this.brand = c.getBrand();
     this.model = c.getModel();
     this.pricePrDay = c.getPricePrDay();

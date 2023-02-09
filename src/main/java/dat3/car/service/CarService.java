@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CarService {
@@ -37,8 +36,7 @@ private CarRepository carRepository;
   public CarResponse addCar(CarRequest body) {
     Car car = CarRequest.getCarEntity(body);
 
-    if (!carRepository.existsById(car.getId())) {
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Car with this ID already exist"); }
+    if (!carRepository.existsById(car.getId())) { throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Car with this ID already exist"); }
 
     carRepository.save(car);
     return new CarResponse(car,false);
@@ -46,8 +44,7 @@ private CarRepository carRepository;
 
   public ResponseEntity<Boolean> editCar(CarRequest body, int id) {
 
-    if (!carRepository.existsById(id)) {
-      throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Car with this ID already exist"); }
+    if (!carRepository.existsById(id)) { throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Car with this ID dont exist"); }
 
     Car car = CarRequest.getCarEntity(body);
     carRepository.save(car);
@@ -55,10 +52,11 @@ private CarRepository carRepository;
   }
 
   public void setBestDiscount(int id, int value) {
+    if (!carRepository.existsById(id)) { throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Car with this ID dont exist"); }
     carRepository.setCarBestDiscount(value,id);
   }
 
-  public void deleteMemberByUsername(int id) {
+  public void deleteCarById(int id) {
     carRepository.deleteById(id);
   }
 }

@@ -41,7 +41,7 @@ public class MemberResponse {
     if(includeAll){
       this.created = m.getCreated();
       this.edited = m.getLastEdited();
-      this.approved = m.isApproved();
+      this.approved = m.getApproved();
       this.ranking = m.getRanking();
     }
   }

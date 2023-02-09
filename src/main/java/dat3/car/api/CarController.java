@@ -24,30 +24,24 @@ public class CarController {
 
   //Admin
   @GetMapping(path = "/{id}")
-  CarResponse getMemberById(@PathVariable int id) throws Exception { return carService.findCarById(id); }
+  CarResponse getCarById(@PathVariable int id) throws Exception { return carService.findCarById(id); }
 
   //Anonymous
 //  @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   @PostMapping
-  CarResponse addMember(@RequestBody CarRequest body){
-    return carService.addCar(body);
-  }
+  CarResponse addCar(@RequestBody CarRequest body){ return carService.addCar(body); }
 
   //Member
   @PutMapping("/{id}")
-  ResponseEntity<Boolean> editCar(@RequestBody CarRequest body, @PathVariable int id){
-    return carService.editCar(body,id);
-  }
+  ResponseEntity<Boolean> editCar(@RequestBody CarRequest body, @PathVariable int id){ return carService.editCar(body,id); }
 
   //Admin
   @PatchMapping("/bestDiscount/{id}/{value}")
-  void setBestDiscount(@PathVariable int id, @PathVariable int value) {
-    carService.setBestDiscount(id,value);
-  }
+  void setBestDiscount(@PathVariable int id, @PathVariable int value) { carService.setBestDiscount(id,value); }
 
   // Admin
   @DeleteMapping("/{id}")
-  void deleteMemberByUsername(@PathVariable int id) { carService.deleteMemberByUsername(id);}
+  void deleteCarByid(@PathVariable int id) { carService.deleteCarById(id); }
 
 
 }

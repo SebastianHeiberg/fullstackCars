@@ -28,8 +28,8 @@ public class Member {
   private String street;
   private String city;
   private String zip;
-  private boolean approved;
-  private int ranking;
+  private Boolean approved;
+  private Integer ranking;
   @CreationTimestamp
   private LocalDateTime created;
   @UpdateTimestamp

@@ -15,7 +15,7 @@ import java.util.Optional;
 @Service
 public class MemberService {
 
-  private MemberRepository memberRepository;
+  private final MemberRepository memberRepository;
 
   public MemberService(MemberRepository memberRepository) {
     this.memberRepository = memberRepository;
@@ -28,7 +28,7 @@ public class MemberService {
   }
 
   public MemberResponse addMember(MemberRequest memberRequest) {
-    //Later you should add error checks --> Missing arguments, email taken etc.
+
     if (memberRepository.existsById(memberRequest.getUsername())) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Member with this ID already exist");
     }

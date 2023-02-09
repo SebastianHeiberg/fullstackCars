@@ -17,7 +17,7 @@ public class CarRequest {
   private String brand;
   private String model;
   private double pricePrDay;
-  private int bestDiscount;
+  private Integer bestDiscount;
 
   // CarRequest to Car conversion
   public static Car getCarEntity(CarRequest cr){

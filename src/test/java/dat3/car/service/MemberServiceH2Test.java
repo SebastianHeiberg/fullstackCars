@@ -35,6 +35,7 @@ public class MemberServiceH2Test {
     }
   }
 
+
   @Test
   void getMembersAdmin() {
     List<MemberResponse> members = memberService.getMembers(true);

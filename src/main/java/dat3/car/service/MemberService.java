@@ -2,9 +2,8 @@ package dat3.car.service;
 
 import dat3.car.dto.MemberRequest;
 import dat3.car.dto.MemberResponse;
-import dat3.car.entity.Car;
+import dat3.car.dto.ReservationRequest;
 import dat3.car.entity.Member;
-import dat3.car.repository.CarRepository;
 import dat3.car.repository.MemberRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +11,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class MemberService {
@@ -77,4 +75,21 @@ public class MemberService {
     }
     memberRepository.deleteById(username);
   }
+
+  public void makeReservation(ReservationRequest body, String username){
+
+  }
+
+  /*
+
+Hint: annotate the LocalDate in your DTO's like this @JsonFormat(pattern = "yyyy-MM-dd") and pass data in this format from Postman while testing
+Implement this service in two steps.
+
+First, let the member reserve a car, even if it's already reserved
+Now change this behaviour to only allow the car to be reserved for a given date, if not already reserved
+Now add yet another check to prevent a reservation made for a day in the past
+Implement service tests for what you did in step b
+
+   */
+
 }

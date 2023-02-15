@@ -10,11 +10,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.http.ResponseEntity;
-import org.springframework.jdbc.core.JdbcTemplate;
-
-
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -24,11 +21,6 @@ class CarServiceH2Test {
   @Autowired
   public CarRepository carRepository;
 
-  //bruges til at sætte auto-increment start til 1 igen, i @AfterEach ellers virker testene ikke træk. Credits til chatGPT
-  @Autowired
-  private EntityManager entityManager;
-
-
   public CarService carService;
 
   boolean dataIsReady = false;
@@ -36,12 +28,18 @@ class CarServiceH2Test {
   @BeforeEach
   void setUp() {
     if (!dataIsReady) {  //Explain this
-      carRepository.save(new Car("Tesla", "M1", 1000, 10));
-      carRepository.save(new Car("Audi", "M1", 1000, 10));
+      Car car1 = Car.builder().brand("Tesla").model("M1").pricePrDay(1000).bestDiscount(10).build();
+      Car car2 = Car.builder().brand("Audi").model("M2").pricePrDay(2000).bestDiscount(20).build();
+      car1 = carRepository.saveAndFlush(car1);
+      car2 = carRepository.saveAndFlush(car2);
       dataIsReady = true;
       carService = new CarService(carRepository); //Real DB is mocked away with H2
     }
   }
+
+  //bruges til at sætte auto-increment start til 1 igen, i @AfterEach ellers virker testene ikke træk. Credits til chatGPT
+  @Autowired
+  private EntityManager entityManager;
 
   @AfterEach
   public void resetPrimaryKey() {

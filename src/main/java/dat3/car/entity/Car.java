@@ -6,6 +6,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Setter
 @Getter
@@ -31,6 +33,9 @@ public class Car {
   private LocalDateTime created;
   @UpdateTimestamp
   private LocalDateTime lastEdited;
+
+  @OneToMany(mappedBy = "car", cascade = CascadeType.ALL)
+  private List<Reservation> reservations = new ArrayList<>();
 
 
   public Car(String brand, String model, double pricePrDay, int bestDiscount) {

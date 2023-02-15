@@ -2,6 +2,7 @@ package dat3.car.api;
 
 import dat3.car.dto.MemberRequest;
 import dat3.car.dto.MemberResponse;
+import dat3.car.dto.ReservationRequest;
 import dat3.car.service.MemberService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

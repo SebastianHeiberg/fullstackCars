@@ -35,6 +35,8 @@ public class Member {
   @UpdateTimestamp
   private LocalDateTime lastEdited;
 
+  @OneToMany(mappedBy = "member", cascade = CascadeType.ALL)
+  private List<Reservation> reservations = new ArrayList<>();
 
 
   public Member(String user, String password, String email,

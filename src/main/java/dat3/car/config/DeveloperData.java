@@ -1,15 +1,20 @@
 package dat3.car.config;
 
 import dat3.car.entity.Car;
+import dat3.car.entity.Reservation;
 import dat3.car.repository.CarRepository;
 import dat3.car.repository.MemberRepository;
 import dat3.car.entity.Member;
+import dat3.car.repository.ReservationRepository;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
+import org.springframework.cglib.core.Local;
 import org.springframework.stereotype.Controller;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.HashMap;
 
 @Controller
@@ -19,13 +24,16 @@ public class DeveloperData implements ApplicationRunner {
   CarRepository carRepository;
 
   public DeveloperData (MemberRepository memberRepository,
-                        CarRepository carRepository)
+                        CarRepository carRepository,
+                        ReservationRepository reservationRepository)
   {
     this.memberRepository = memberRepository;
     this.carRepository = carRepository;
+    this.reservationRepository = reservationRepository;
   }
 
   private final String passwordUsedByAll = "test12";
+  private final ReservationRepository reservationRepository;
 
 
   @Override
@@ -42,6 +50,14 @@ public class DeveloperData implements ApplicationRunner {
     Car c2 = new Car("Ford","Fieste",1500,10);
     carRepository.save(c1);
     carRepository.save(c2);
+
+    Reservation reservation = new Reservation();
+    reservation.setReservationDate(LocalDate.now());
+    reservation.setRentalDate(LocalDate.now());
+    reservation.setCar(c1);
+    reservation.setMember(m1);
+    reservationRepository.save(reservation);
+
 
     }
 

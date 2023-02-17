@@ -7,6 +7,7 @@ import dat3.cars.entity.Reservation;
 import dat3.cars.repository.CarRepository;
 import dat3.cars.repository.MemberRepository;
 import dat3.cars.repository.ReservationRepository;
+import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,23 +31,30 @@ class ReservationServiceH2Test {
   @Autowired
   CarRepository carRepository;
 
+  //bruges til at sætte auto-increment start til 1 igen, i @AfterEach ellers virker testene ikke træk. Credits til chatGPT
+  @Autowired
+  private EntityManager entityManager;
+
   ReservationService reservationService;
   private boolean dataIsReady;
 
   @BeforeEach
   void setUp() {
     if (!dataIsReady) {  //Explain this
+      entityManager.createNativeQuery("ALTER TABLE CAR ALTER COLUMN id RESTART WITH 1").executeUpdate();
       Car car1 = Car.builder().brand("Tesla").model("M1").pricePrDay(1000).bestDiscount(10).build();
-      carRepository.save(car1);
+      carRepository.saveAndFlush(car1);
       Member m1 = new Member("m2", "test12", "m2@a.dk", "aa", "hansen", "xx vej 34", "Lyngby", "2800");
       memberRepository.save(m1);
       LocalDate today = LocalDate.now();
       Reservation reservation = new Reservation(today,car1,m1);
-      reservationRepository.save(reservation);
+      reservationRepository.saveAndFlush(reservation);
       dataIsReady = true;
       reservationService = new ReservationService(carRepository,memberRepository,reservationRepository);
     }
   }
+
+
 
   @Test
   void makeReservation() {

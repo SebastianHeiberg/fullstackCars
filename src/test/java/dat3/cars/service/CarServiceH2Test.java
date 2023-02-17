@@ -26,9 +26,15 @@ class CarServiceH2Test {
 
   boolean dataIsReady = false;
 
+  //bruges til at sætte auto-increment start til 1 igen, i @AfterEach ellers virker testene ikke træk. Credits til chatGPT
+  @Autowired
+  private EntityManager entityManager;
+
+
   @BeforeEach
   void setUp() {
     if (!dataIsReady) {  //Explain this
+      entityManager.createNativeQuery("ALTER TABLE CAR ALTER COLUMN id RESTART WITH 1").executeUpdate();
       Car car1 = Car.builder().brand("Tesla").model("M1").pricePrDay(1000).bestDiscount(10).build();
       Car car2 = Car.builder().brand("Audi").model("M2").pricePrDay(2000).bestDiscount(20).build();
       car1 = carRepository.saveAndFlush(car1);
@@ -38,14 +44,7 @@ class CarServiceH2Test {
     }
   }
 
-  //bruges til at sætte auto-increment start til 1 igen, i @AfterEach ellers virker testene ikke træk. Credits til chatGPT
-  @Autowired
-  private EntityManager entityManager;
 
-  @AfterEach
-  public void resetPrimaryKey() {
-    entityManager.createNativeQuery("ALTER TABLE CAR ALTER COLUMN id RESTART WITH 1").executeUpdate();
-  }
 
 
   @Test

@@ -4,6 +4,7 @@ import dat3.cars.entity.Car;
 import dat3.cars.entity.Member;
 import dat3.cars.entity.Reservation;
 import dat3.cars.service.ReservationService;
+import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,6 +24,8 @@ class ReservationRepositoryH2Test {
   ReservationRepository reservationRepository;
   @Autowired
   CarRepository carRepository;
+
+
 
   private boolean dataIsReady;
 

@@ -4,6 +4,7 @@ import dat3.cars.dto.MemberRequest;
 import dat3.cars.entity.Member;
 import dat3.cars.dto.MemberResponse;
 import dat3.cars.repository.MemberRepository;
+import dat3.cars.repository.ReservationRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,12 +24,14 @@ class MemberServiceMockhitoTest {
 
   @Mock
   MemberRepository memberRepository;
+  @Mock
+  ReservationRepository reservationRepository;
 
   MemberService memberService;
 
   @BeforeEach
   void setUp() {
-    memberService = new MemberService(memberRepository);
+    memberService = new MemberService(memberRepository, reservationRepository);
   }
 
   @Test

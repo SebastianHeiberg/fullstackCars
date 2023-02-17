@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Getter
 @Setter
@@ -28,6 +29,7 @@ public class MemberResponse {
   LocalDateTime edited;
   Integer ranking;
   Boolean approved;
+  List<ReservationResponse> reservationResponselist;
 
   //Convert Member Entity to Member DTO
   public MemberResponse(Member m, boolean includeAll) {
@@ -43,6 +45,9 @@ public class MemberResponse {
       this.edited = m.getLastEdited();
       this.approved = m.getApproved();
       this.ranking = m.getRanking();
+    }
+    if(!m.getReservations().isEmpty()){
+      this.reservationResponselist = m.getReservations().stream().map(ReservationResponse::new).toList();
     }
   }
 }

@@ -4,6 +4,7 @@ import dat3.cars.dto.MemberRequest;
 import dat3.cars.dto.MemberResponse;
 import dat3.cars.entity.Member;
 import dat3.cars.repository.MemberRepository;
+import dat3.cars.repository.ReservationRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,7 +21,10 @@ import static org.junit.jupiter.api.Assertions.*;
 public class MemberServiceH2Test {
 
   @Autowired
-  public MemberRepository memberRepository;
+  MemberRepository memberRepository;
+
+  @Autowired
+  ReservationRepository reservationRepository;
 
   MemberService memberService;
 
@@ -31,7 +35,7 @@ public class MemberServiceH2Test {
       memberRepository.save(new Member("m1", "test12", "m1@a.dk",  "bb", "Olsen", "xx vej 34", "Lyngby", "2800"));
       memberRepository.save(new Member("m2", "test12", "m2@a.dk", "aa", "hansen", "xx vej 34", "Lyngby", "2800"));
       dataIsReady = true;
-      memberService = new MemberService(memberRepository); //Real DB is mocked away with H2
+      memberService = new MemberService(memberRepository,reservationRepository); //Real DB is mocked away with H2
     }
   }
 

@@ -9,11 +9,9 @@ import dat3.cars.repository.ReservationRepository;
 import dat3.security.entity.Role;
 import dat3.security.entity.UserWithRoles;
 import dat3.security.repository.UserWithRolesRepository;
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.ApplicationRunner;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -52,7 +50,7 @@ public class DeveloperData implements ApplicationRunner {
 
     Reservation reservation = new Reservation();
     reservation.setReservationDate(LocalDate.now());
-    reservation.setRentalDate(LocalDate.now());
+    reservation.setRentalDate(LocalDate.now().plusDays(5));
     reservation.setCar(c1);
     reservation.setMember(m1);
     reservationRepository.save(reservation);

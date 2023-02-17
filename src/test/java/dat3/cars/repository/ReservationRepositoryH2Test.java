@@ -1,27 +1,21 @@
-package dat3.cars.service;
+package dat3.cars.repository;
 
-import dat3.cars.dto.ReservationRequest;
 import dat3.cars.entity.Car;
 import dat3.cars.entity.Member;
 import dat3.cars.entity.Reservation;
-import dat3.cars.repository.CarRepository;
-import dat3.cars.repository.MemberRepository;
-import dat3.cars.repository.ReservationRepository;
-import org.junit.jupiter.api.Assertions;
+import dat3.cars.service.ReservationService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
-class ReservationServiceH2Test {
+class ReservationRepositoryH2Test {
 
   @Autowired
   MemberRepository memberRepository;
@@ -30,7 +24,6 @@ class ReservationServiceH2Test {
   @Autowired
   CarRepository carRepository;
 
-  ReservationService reservationService;
   private boolean dataIsReady;
 
   @BeforeEach
@@ -39,29 +32,21 @@ class ReservationServiceH2Test {
       Car car1 = Car.builder().brand("Tesla").model("M1").pricePrDay(1000).bestDiscount(10).build();
       carRepository.save(car1);
       Member m1 = new Member("m2", "test12", "m2@a.dk", "aa", "hansen", "xx vej 34", "Lyngby", "2800");
+      Member m2 = new Member("m3", "test12", "m3@a.dk", "bb", "hansen", "xx vej 34", "Lyngby", "2800");
       memberRepository.save(m1);
+      memberRepository.save(m2);
       LocalDate today = LocalDate.now();
       Reservation reservation = new Reservation(today,car1,m1);
       reservationRepository.save(reservation);
       dataIsReady = true;
-      reservationService = new ReservationService(carRepository,memberRepository,reservationRepository);
     }
   }
 
   @Test
-  void makeReservation() {
-
-    Car car = carRepository.findById(1).get();
-    Member member = memberRepository.findById("m2").get();
-    LocalDate today = LocalDate.now();
-
-    ReservationRequest reservationRequest = new ReservationRequest(today,car.getId(), member.getUsername());
-
-    ResponseStatusException ex = Assertions.assertThrows(ResponseStatusException.class,()-> reservationService.makeReservation(reservationRequest));
-    assertEquals(HttpStatus.BAD_REQUEST, ex.getStatusCode());
+  void searchReservationByMemberFirstName(){
+    List<Reservation> reservations = reservationRepository.findReservationsByMember_Username("m2");
+    assertEquals(1,reservations.size());
   }
-
-
 
 
 

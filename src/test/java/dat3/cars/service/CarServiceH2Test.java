@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.http.ResponseEntity;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
@@ -97,5 +99,6 @@ class CarServiceH2Test {
     carService.deleteCarById(1);
     assertFalse(carRepository.existsById(1));
   }
+
 
 }

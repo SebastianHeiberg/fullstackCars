@@ -5,6 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.time.LocalDate;
+import java.util.List;
 
 public interface ReservationRepository extends JpaRepository <Reservation,Long> {
 
@@ -21,5 +22,6 @@ boolean existsByCar_IdAndRentalDate(int carId, LocalDate rentalDate);
       where r.rentalDate = ?1 and r.car.id = ?2""")
   int findReservationId(LocalDate rentalDate, int id);
 
+  List<Reservation> findReservationsByMember_Username(String username);
 
 }

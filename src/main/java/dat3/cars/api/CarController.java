@@ -43,5 +43,16 @@ public class CarController {
   @DeleteMapping("/{id}")
   void deleteCarByid(@PathVariable int id) { carService.deleteCarById(id); }
 
+  //Admin
+  @GetMapping("/averagePrice")
+  Double averagePricePrDay(){
+    return carService.findAverageCostCars();
+  }
+
+  @GetMapping("/notReserved")
+  List<CarResponse> notReserved() {
+  return carService.findUnreservedCars();
+  }
+
 
 }

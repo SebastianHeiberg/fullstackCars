@@ -68,9 +68,10 @@ class CarRepositoryH2Test {
 
   @Test
   void findUnreservedCars(){
-
+    //to biler, den kun den ene har en reservation
     assertEquals(carRepository.findUnreservedCars().size(),1);
       }
+
 
 }
 

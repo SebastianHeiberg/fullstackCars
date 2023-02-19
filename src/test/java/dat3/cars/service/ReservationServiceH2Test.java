@@ -1,6 +1,7 @@
 package dat3.cars.service;
 
 import dat3.cars.dto.ReservationRequest;
+import dat3.cars.dto.ReservationResponse;
 import dat3.cars.entity.Car;
 import dat3.cars.entity.Member;
 import dat3.cars.entity.Reservation;
@@ -69,7 +70,11 @@ class ReservationServiceH2Test {
     assertEquals(HttpStatus.BAD_REQUEST, ex.getStatusCode());
   }
 
-
+  @Test
+  void findReservationsByMember_Username () {
+    List<ReservationResponse> reservationResponses = reservationService.findReservationsByMember_Username("m2");
+    assertEquals(reservationResponses.size(),1);
+  }
 
 
 

@@ -69,4 +69,21 @@ public class CarService {
   }
 
 
+  public List<CarResponse> findAllCarsByBrandAndModel(String brand, String model){
+    List <Car> carList = carRepository.findCarsByBrandAndAndModel(brand, model);
+    List<CarResponse> carResponseList = carList.stream().map(c -> new CarResponse(c,true) ).toList();
+    return carResponseList;
+  }
+
+  public double findAverageCostCars(){
+    return carRepository.findAverageCostCars();
+  }
+
+  public List<CarResponse> findUnreservedCars(){
+    List<Car> cars = carRepository.findUnreservedCars();
+    List<CarResponse> carResponseList = cars.stream().map(c -> new CarResponse(c,true)).toList();
+    return carResponseList;
+  }
+
+
 }

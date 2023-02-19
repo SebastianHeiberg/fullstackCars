@@ -3,7 +3,11 @@ package dat3.cars.service;
 import dat3.cars.dto.CarRequest;
 import dat3.cars.dto.CarResponse;
 import dat3.cars.entity.Car;
+import dat3.cars.entity.Member;
+import dat3.cars.entity.Reservation;
 import dat3.cars.repository.CarRepository;
+import dat3.cars.repository.MemberRepository;
+import dat3.cars.repository.ReservationRepository;
 import jakarta.persistence.EntityManager;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.http.ResponseEntity;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -29,6 +34,10 @@ class CarServiceH2Test {
   //bruges til at sætte auto-increment start til 1 igen, i @AfterEach ellers virker testene ikke træk. Credits til chatGPT
   @Autowired
   private EntityManager entityManager;
+  @Autowired
+  private MemberRepository memberRepository;
+  @Autowired
+  private ReservationRepository reservationRepository;
 
 
   @BeforeEach
@@ -37,9 +46,14 @@ class CarServiceH2Test {
       entityManager.createNativeQuery("ALTER TABLE CAR ALTER COLUMN id RESTART WITH 1").executeUpdate();
       Car car1 = Car.builder().brand("Tesla").model("M1").pricePrDay(1000).bestDiscount(10).build();
       Car car2 = Car.builder().brand("Audi").model("M2").pricePrDay(2000).bestDiscount(20).build();
-      car1 = carRepository.saveAndFlush(car1);
-      car2 = carRepository.saveAndFlush(car2);
+      car1 = carRepository.save(car1);
+      car2 = carRepository.save(car2);
       dataIsReady = true;
+      Member m1 = new Member("m2", "test12", "m2@a.dk", "aa", "hansen", "xx vej 34", "Lyngby", "2800");
+      memberRepository.save(m1);
+      LocalDate today = LocalDate.now();
+      Reservation reservation = new Reservation(today,car1,m1);
+      reservationRepository.save(reservation);
       carService = new CarService(carRepository); //Real DB is mocked away with H2
     }
   }
@@ -95,9 +109,29 @@ class CarServiceH2Test {
 
   @Test
   void deleteCarById() {
-    carService.deleteCarById(1);
-    assertFalse(carRepository.existsById(1));
+    carService.deleteCarById(2);
+    assertFalse(carRepository.existsById(2));
+    }
+
+
+
+  @Test
+  void findAllCarsByBrandAndModel() {
+    List<CarResponse> carResponseList = carService.findAllCarsByBrandAndModel("Audi","M2");
+    assertEquals(carResponseList.size(),1);
   }
 
+  @Test
+  void findAverageCostCars(){
+    double actualPricAverage = carService.findAverageCostCars();
+    double expected = 1500;
+    assertEquals(expected, actualPricAverage);
+  }
+
+  @Test
+  void findUnreservedCars(){
+    List <CarResponse> carResponseList = carService.findUnreservedCars();
+    assertEquals(carResponseList.size(),1);
+  }
 
 }

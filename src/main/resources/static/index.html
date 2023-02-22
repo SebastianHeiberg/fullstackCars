@@ -24,7 +24,7 @@
 </div>
 <script>
     // Fetch all cars and render them in the HTML table
-    fetch('http://localhost:8080/api/cars')
+    fetch('api/cars')
         .then(response => response.json())
         .then(cars => {
             const carTableBody = document.querySelector('table tbody');

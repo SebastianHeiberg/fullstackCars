@@ -8,8 +8,11 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
-@RestController
 @RequestMapping("api/cars")
+@RestController
+@CrossOrigin
+
+
 public class CarController {
 
   CarService carService;
@@ -53,6 +56,7 @@ public class CarController {
   List<CarResponse> notReserved() {
   return carService.findUnreservedCars();
   }
+
 
 
 }

@@ -62,4 +62,9 @@ public class ReservationService {
     return reservationResponses;
   }
 
+  public List<ReservationResponse> getReservations() {
+    List<Reservation> reservations = reservationRepository.findAll();
+    List<ReservationResponse> reservationResponses = reservations.stream().map(r -> new ReservationResponse(r)).toList();
+    return reservationResponses;
+  }
 }

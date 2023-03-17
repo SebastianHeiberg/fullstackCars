@@ -3,7 +3,9 @@ package dat3.cars.api;
 import dat3.cars.dto.MemberRequest;
 import dat3.cars.dto.MemberResponse;
 import dat3.cars.service.MemberService;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,11 +31,11 @@ class MemberController {
   MemberResponse getMemberById(@PathVariable String username) throws Exception { return memberService.findMemberByUsername(username); }
 
   //Anonymous
-//  @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-  @PostMapping
+ @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+//  @PostMapping
   MemberResponse addMember(@RequestBody MemberRequest body){ return memberService.addMember(body); }
 
-  //Member
+  //admin
   @PutMapping("/{username}")
   ResponseEntity<Boolean> editMember(@RequestBody MemberRequest body, @PathVariable String username){
     return memberService.editMember(body,username);

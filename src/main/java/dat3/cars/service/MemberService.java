@@ -7,6 +7,7 @@ import dat3.cars.entity.Member;
 import dat3.cars.entity.Reservation;
 import dat3.cars.repository.MemberRepository;
 import dat3.cars.repository.ReservationRepository;
+import dat3.security.entity.Role;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -40,6 +41,7 @@ public class MemberService {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Member with this Email already exist");
     }
     Member newMember = MemberRequest.getMemberEntity(memberRequest);
+    newMember.addRole(Role.USER);
     newMember = memberRepository.save(newMember);
 
     return new MemberResponse(newMember, false);

@@ -4,6 +4,7 @@ import dat3.cars.dto.ReservationRequest;
 import dat3.cars.dto.ReservationResponse;
 import dat3.cars.service.ReservationService;
 import org.springframework.http.MediaType;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -20,7 +21,7 @@ public class ReservationController {
     this.reservationService = reservationService;
   }
 
-  // admin
+  // admin or user
   @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
   ReservationResponse createReservation(@RequestBody ReservationRequest body){ return reservationService.makeReservation(body); }
 

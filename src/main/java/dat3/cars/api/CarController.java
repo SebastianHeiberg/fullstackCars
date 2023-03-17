@@ -4,6 +4,7 @@ import dat3.cars.dto.CarRequest;
 import dat3.cars.dto.CarResponse;
 import dat3.cars.service.CarService;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,7 +40,6 @@ public class CarController {
   ResponseEntity<Boolean> editCar(@RequestBody CarRequest body, @PathVariable int id){ return carService.editCar(body,id); }
 
   //Admin
-  @PatchMapping("/bestDiscount/{id}/{value}")
   void setBestDiscount(@PathVariable int id, @PathVariable int value) { carService.setBestDiscount(id,value); }
 
   // Admin
@@ -52,6 +52,7 @@ public class CarController {
     return carService.findAverageCostCars();
   }
 
+  //Admin
   @GetMapping("/notReserved")
   List<CarResponse> notReserved() {
   return carService.findUnreservedCars();

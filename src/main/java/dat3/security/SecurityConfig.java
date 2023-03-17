@@ -81,6 +81,9 @@ public class SecurityConfig {
             //Obviously we need to be able to login without being logged in :-)
             .requestMatchers(HttpMethod.POST, "/api/auth/login").permitAll()
 
+            //people should be able to sign up
+            .requestMatchers(HttpMethod.POST, "/api/members").permitAll()
+
             //Required in order to use the h2-console
             .requestMatchers("/h2*/**").permitAll()
 
@@ -90,13 +93,33 @@ public class SecurityConfig {
             //necessary to allow for "nice" JSON Errors
             .requestMatchers("/error").permitAll()
 
-            .requestMatchers("/", "/**").permitAll());
+              //giver alt lov til at køre
+//            .requestMatchers("/", "/**").permitAll());
 
-           // .requestMatchers(HttpMethod.GET,"/api/demo/anonymous").permitAll());
+            //for cars
+            .requestMatchers(HttpMethod.GET, "/api/cars").hasAuthority("ADMIN")
+            .requestMatchers(HttpMethod.GET, "/api/averagePrice").hasAuthority("ADMIN")
+            .requestMatchers(HttpMethod.GET, "/api/notReserved").hasAuthority("ADMIN")
+            .requestMatchers(HttpMethod.POST, "/api/cars/{id}").hasAuthority("ADMIN")
+            .requestMatchers(HttpMethod.GET, "/api/cars/{id}").hasAuthority("ADMIN")
+            .requestMatchers(HttpMethod.PUT, "/api/cars/{id}").hasAuthority("ADMIN")
+            .requestMatchers(HttpMethod.DELETE, "/api/cars/{id}").hasAuthority("ADMIN")
+            .requestMatchers(HttpMethod.PATCH, "/api/cars/{id}/{value}").hasAuthority("ADMIN")
 
-           // Demonstrates another way to add roles to an endpoint
-           // .requestMatchers(HttpMethod.GET, "/api/demo/admin").hasAuthority("ADMIN")
-    //.anyRequest().authenticated());
+            //for members
+            .requestMatchers(HttpMethod.GET, "/api/members").hasAuthority("ADMIN")
+            .requestMatchers(HttpMethod.GET, "/api/members/{username}").hasAuthority("ADMIN")
+            .requestMatchers(HttpMethod.PUT, "/api/members/{username}").hasAuthority("ADMIN")
+            .requestMatchers(HttpMethod.PATCH, "/api/members/ranking/{username}/{value}").hasAuthority("ADMIN")
+            .requestMatchers(HttpMethod.DELETE, "/api/members/{username}").hasAuthority("ADMIN")
+
+            //for reservations
+            .requestMatchers(HttpMethod.POST, "/api/reservations").hasAuthority("ADMIN")
+            .requestMatchers(HttpMethod.POST, "/api/reservations").hasAuthority("USER")
+            .requestMatchers(HttpMethod.GET, "/api/reservations").hasAuthority("USER")
+            .requestMatchers(HttpMethod.GET, "/api/reservations").hasAuthority("ADMIN")
+
+        .anyRequest().authenticated());
 
     return http.build();
   }

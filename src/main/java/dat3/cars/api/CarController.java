@@ -22,9 +22,14 @@ public class CarController {
     this.carService = carService;
   }
 
-  //Admin
+  //User
   @GetMapping
-  List<CarResponse> getCars(){ return carService.getCars(true);}
+  List<CarResponse> getCars(){ return carService.getCars(false);}
+
+  //admin
+  @GetMapping("/admin")
+  List<CarResponse> getCarsAdmin(){ return carService.getCars(true);}
+
 
   //Admin
   @GetMapping(path = "/{id}")

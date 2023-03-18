@@ -27,4 +27,11 @@ public class ReservationController {
 
   @GetMapping
   List<ReservationResponse> getReservation(){ return reservationService.getReservations(); }
+
+
+  @GetMapping("/{username}")
+  List<ReservationResponse> getReservationForUser(@PathVariable String username){ return reservationService.getReservationsForUser(username); }
+
+
 }
+

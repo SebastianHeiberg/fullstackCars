@@ -97,7 +97,8 @@ public class SecurityConfig {
 //            .requestMatchers("/", "/**").permitAll());
 
             //for cars
-            .requestMatchers(HttpMethod.GET, "/api/cars").hasAuthority("ADMIN")
+//            .requestMatchers(HttpMethod.GET, "/api/cars").hasAuthority("ADMIN")
+            .requestMatchers(HttpMethod.GET, "/api/cars").hasAuthority("USER")
             .requestMatchers(HttpMethod.GET, "/api/averagePrice").hasAuthority("ADMIN")
             .requestMatchers(HttpMethod.GET, "/api/notReserved").hasAuthority("ADMIN")
             .requestMatchers(HttpMethod.POST, "/api/cars/{id}").hasAuthority("ADMIN")
@@ -114,10 +115,11 @@ public class SecurityConfig {
             .requestMatchers(HttpMethod.DELETE, "/api/members/{username}").hasAuthority("ADMIN")
 
             //for reservations
-            .requestMatchers(HttpMethod.POST, "/api/reservations").hasAuthority("ADMIN")
+//            .requestMatchers(HttpMethod.POST, "/api/reservations").hasAuthority("ADMIN")
             .requestMatchers(HttpMethod.POST, "/api/reservations").hasAuthority("USER")
             .requestMatchers(HttpMethod.GET, "/api/reservations").hasAuthority("USER")
-            .requestMatchers(HttpMethod.GET, "/api/reservations").hasAuthority("ADMIN")
+            .requestMatchers(HttpMethod.GET, "/api/reservations/{username}").hasAuthority("USER")
+//            .requestMatchers(HttpMethod.GET, "/api/reservations").hasAuthority("ADMIN")
 
         .anyRequest().authenticated());
 

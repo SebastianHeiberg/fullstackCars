@@ -67,4 +67,10 @@ public class ReservationService {
     List<ReservationResponse> reservationResponses = reservations.stream().map(r -> new ReservationResponse(r)).toList();
     return reservationResponses;
   }
+
+  public List<ReservationResponse> getReservationsForUser(String username) {
+    List<Reservation> reservations = reservationRepository.findReservationsByMember_Username(username);
+    List<ReservationResponse> reservationResponses = reservations.stream().map(r -> new ReservationResponse(r)).toList();
+    return reservationResponses;
+  }
 }
